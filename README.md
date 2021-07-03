@@ -10,6 +10,7 @@ Originally made somewhere around 2021-06-16 while I was bored and staying at my 
 `./rbtext <text>`
 
 ## install
-install -m755 rbtext /usr/bin
+`install -m755 rbtext /usr/bin`
 
-> Can't get any simpler
+
+>> Can't get any simpler
