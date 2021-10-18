@@ -39,6 +39,11 @@ enum color {
     red,orange,yellow,green,cyan,blue,purple,pink
 };
 
+#define addcase(enum, defin)\
+case enum:\
+    cstr = "\e[38;2;"defin"m";\
+    break;
+
 unsigned long long t = 0;
 void genColors(char *s) {
     for (int i = 0; i < strlen(s); i++) {
@@ -46,38 +51,15 @@ void genColors(char *s) {
         char *cstr = malloc(256*sizeof(char));
         
         switch (c) {
-            case red:
-                cstr = "\e[38;2;"RED"m";
-                break;
-            
-            case orange:
-                cstr = "\e[38;2;"ORANGE"m";
-                break;
-            
-            case yellow:
-                cstr = "\e[38;2;"YELLOW"m";
-                break;
-            
-            case green:
-                cstr = "\e[38;2;"GREEN"m";
-                break;
-            
-            case cyan:
-                cstr = "\e[38;2;"CYAN"m";
-                break;
-            
-            case blue:
-                cstr = "\e[38;2;"BLUE"m";
-                break;
-            
-            case purple:
-                cstr = "\e[38;2;"PURPLE"m";
-                break;
-            
-            case pink:
-                cstr = "\e[38;2;"PINK"m";
-                break;
-
+            //addcase(enum value, #define name)
+            addcase(red,    RED);
+            addcase(orange, ORANGE);
+            addcase(yellow, YELLOW);
+            addcase(green,  GREEN);
+            addcase(cyan,   CYAN);
+            addcase(blue,   BLUE);
+            addcase(purple, PURPLE);
+            addcase(pink,   PINK);
         }
 
         printf("%s%c",cstr,s[i]);
