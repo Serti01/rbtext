@@ -46,9 +46,9 @@ case enum:\
 
 unsigned long long t = 0;
 void genColors(char *s) {
+    char *cstr = malloc(20 * sizeof(char));
     for (int i = 0; i < strlen(s); i++) {
         enum color c = (((t + i) / COLOR_SKIP) % COLORS);
-        char *cstr = malloc(256*sizeof(char));
         
         switch (c) {
             //addcase(enum value, #define name)
@@ -72,23 +72,24 @@ int main(int carg, char **varg) {
         return 1;
     }
 
-    char *text = malloc(1024*sizeof(char));
-    int t_ind = 0;
-
+    char *text = malloc(1024 * sizeof(char));
+    
     // Similar to pythons str.join() method
     // Adds all the arguments together with spaces seperating them
     // EG: ./rbtext hello world > "hello world"
-    for (int i = 1; i < carg; i++) {
-        for (int j = 0; j < strlen(varg[i]); j++,t_ind++) {
-            text[t_ind] = varg[i][j];
+    for (int i = 1, j = 0; i < carg; i++) {
+        for (int k = 0; k < strlen(varg[i]); k++, j++) {
+            text[j] = varg[i][k];
         }
-        text[t_ind] = ' ';
-        t_ind++;
+        
+        text[j] = ' ';
+        j++;
     }
 
     while (1) {
         printf("\r");
         genColors(text);
+        printf("\e[0m");
         fflush(stdout);
         usleep(CONF_SLEEP_TIMEMS*1000);
         t += 1;
