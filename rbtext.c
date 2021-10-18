@@ -13,8 +13,11 @@ I DON'T CARE HOW YOU USE OR CONFIGURE THIS PROGRAM.
 #include <memory.h>
 #include <unistd.h>
 
-// How many milliseconds the program will wait until the next print
-#define CONF_SLEEP_TIMEMS 75
+// How many milliseconds the program will wait until the next print ( DEFAULT = 100 )
+#define CONF_SLEEP_TIMEMS 100
+// How many times a color should be shown before switching to the next ( DEFAULT = 2 )
+#define COLOR_SKIP 2
+
 // BEWARE RICERS
 // If you add extra colors make sure to
 // a) Add it to the color enum in the genColors function
@@ -31,14 +34,15 @@ I DON'T CARE HOW YOU USE OR CONFIGURE THIS PROGRAM.
 #define PURPLE      "155;71;193"
 #define PINK        "193;71;153"
 #define COLORS      8
-// Keep track of how many ticks (characters read from char *s) have gone by
-long long t;
+// Keep track of how many ticks have gone by
+unsigned long long t = 0;
 void genColors(char *s) {
-    for (int i = 0; i < strlen(s); i++,t++) {
+    for (int i = 0; i < strlen(s); i++) {
         enum color {
             red,orange,yellow,green,cyan,blue,purple,pink
         };
-        enum color c = ((t/2) & (COLORS-1));
+
+        enum color c = (((t + i) / COLOR_SKIP) % COLORS);
         char *cstr = malloc(256*sizeof(char));
         
         switch (c) {
@@ -82,7 +86,7 @@ void genColors(char *s) {
 
 int main(int carg, char **varg) {
     if (carg < 2) {
-        printf("\e[1;31m[ERROR]\e[0m No arguments given.\n\tUSAGE: \e[34m%s \e[33m<text>\3[0m\n",varg[0]);
+        printf("\e[1;31m[ERROR]\e[0m No arguments given.\n\tUSAGE: \e[34m%s \e[33m<text>\e[0m\n",varg[0]);
         return 1;
     }
 
@@ -101,11 +105,11 @@ int main(int carg, char **varg) {
     }
 
     while (1) {
-        fflush(stdout);
-        printf("%s","\r");
+        printf("\r");
         genColors(text);
         fflush(stdout);
         usleep(CONF_SLEEP_TIMEMS*1000);
+        t += 1;
     }
 
     return 0;
