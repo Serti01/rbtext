@@ -20,7 +20,7 @@ I DON'T CARE HOW YOU USE OR CONFIGURE THIS PROGRAM.
 
 // BEWARE RICERS
 // If you add extra colors make sure to
-// a) Add it to the color enum in the genColors function
+// a) Add it to the color enum
 // b) Add the case to the switch statement in the genColors function
 // c) Update the COLORS definition with the new amount of colors
 // FORMAT
@@ -34,14 +34,14 @@ I DON'T CARE HOW YOU USE OR CONFIGURE THIS PROGRAM.
 #define PURPLE      "155;71;193"
 #define PINK        "193;71;153"
 #define COLORS      8
-// Keep track of how many ticks have gone by
+
+enum color {
+    red,orange,yellow,green,cyan,blue,purple,pink
+};
+
 unsigned long long t = 0;
 void genColors(char *s) {
     for (int i = 0; i < strlen(s); i++) {
-        enum color {
-            red,orange,yellow,green,cyan,blue,purple,pink
-        };
-
         enum color c = (((t + i) / COLOR_SKIP) % COLORS);
         char *cstr = malloc(256*sizeof(char));
         
